@@ -1,0 +1,3 @@
+version=4
+opts=filenamemangle=s/.+\/v?(\d\S+)\.tar\.gz/scikit-build-$1\.tar\.gz/ \
+  https://github.com/scikit-build/scikit-build/tags .*/v?(\d\S+)\.tar\.gz

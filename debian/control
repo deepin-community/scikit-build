@@ -1,0 +1,62 @@
+Source: scikit-build
+Section: python
+Priority: optional
+Maintainer: Debian Python Team <team+python@tracker.debian.org>
+Uploaders: Emmanuel Arias <eamanu@yaerobi.com>
+Build-Depends: debhelper-compat (= 13),
+ dh-python,
+ python3-all,
+ python3-setuptools,
+ python3-wheel (>= 0.29.0),
+ python3-distro,
+ python3-coverage (>= 4.2),
+ cython3 (>= 0.25.1),
+ python3-flake8 (>= 3.0.4),
+ python3-path (>= 11.5.0),
+ python3-pytest (>= 4.5.0),
+ python3-pytest-cov (>= 2.7.1),
+ python3-mock (>= 1.10.4),
+ python3-pytest-runner,
+ python3-requests,
+ python3-six (>= 1.10.0),
+ python3-virtualenv,
+ python3-docutils,
+ python3-sphinx (>> 1.8.5),
+ python3-sphinx-rtd-theme,
+ python3-sphinx-issues,
+ python3-pygments
+Standards-Version: 4.5.0
+Homepage: https://scikit-build.org
+Vcs-Git: https://salsa.debian.org/debian/scikit-build.git
+Vcs-Browser: https://salsa.debian.org/debian/scikit-build
+
+Package: python3-skbuild
+Architecture: all
+Depends:
+ ${misc:Depends},
+ ${python3:Depends},
+ python3-setuptools (>= 28.0.0),
+ python3-distro,
+ cmake,
+Suggests:
+ python-skbuild-doc
+Description: improved build system generator for Python C/C++/Fortran/Cython extensions
+ Better support is available for additional compilers, build systems, cross
+ compilation, and locating dependencies and determining their build
+ requirements.
+ .
+ The scikit-build package is fundamentally just glue between the setuptools
+ Python module and CMake.
+ .
+ This is Python 3 module.
+
+Package: python-skbuild-doc
+Architecture: all
+Section: doc
+Depends: ${misc:Depends}, ${sphinxdoc:Depends}
+Description: skbuild (documentation)
+ Better support is available for additional compilers, build systems, cross
+ compilation, and locating dependencies and determining their build
+ requirements.
+ .
+ This package contains documentation.

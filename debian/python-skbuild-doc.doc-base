@@ -1,0 +1,9 @@
+Document: python-skbuild-doc
+Title: documentation of skbuild
+Author: The scikit-build team
+Abstract: Build system generator for CPython C, C++, Cython and Fortran extensions.
+Section: Programming/Python
+
+Format: HTML
+Index: /usr/share/doc/python-skbuild-doc/html/index.html
+Files: /usr/share/doc/python-skbuild-doc/html/*.html

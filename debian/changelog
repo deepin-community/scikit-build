@@ -1,0 +1,11 @@
+scikit-build (0.11.1-2) unstable; urgency=medium
+
+  * d/control: Depends on cmake. Patch by Matthias Klose.
+
+ -- Emmanuel Arias <eamanu@yaerobi.com>  Thu, 19 Nov 2020 16:20:20 -0300
+
+scikit-build (0.11.1-1) unstable; urgency=medium
+
+  * Initial release. Closes: #947097
+
+ -- Emmanuel Arias <eamanu@yaerobi.com>  Thu, 05 Nov 2020 09:54:30 -0300
