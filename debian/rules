@@ -2,11 +2,37 @@
 
 #export DH_VERBOSE = 1
 export PYBUILD_NAME = skbuild
-export PYBUILD_DISABLE = test
 
+PY3VERS=$(shell py3versions -vr)
+
+# These tests need work. Ignore them until freeze Debian finish.
+export IGNORE_TESTS=-k 'not test_hello_sdist \
+                and not test_hello_sdist_with_base \
+                and not test_sdist_with_symlinks\
+                and not test_manifest_in_sdist \
+                and not test_generator_cleanup \
+                and not test_fortran \
+                and not test_pep518_findpython \
+                and not test_pep518 \
+                and not test_dual_pep518 \
+                and not test_hello_develop \
+                and not test_install_command \
+                and not test_help_commands \
+                and not test_test_command'
 %:
 	dh $@ --with python3,sphinxdoc --buildsystem=pybuild
 
 override_dh_auto_install:
 	dh_auto_install
 	$(MAKE) -C $(CURDIR)/docs html
+
+execute_after_dh_clean:
+	# Clean generated _version.py
+	rm -f skbuild/_version.py
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck, $(DEB_BUILD_OPTIONS)))
+	set -e ; set -x ; for i in $(PY3VERS) ; do \
+		python$$i -m pytest $(IGNORE_TESTS); \
+	done
+endif

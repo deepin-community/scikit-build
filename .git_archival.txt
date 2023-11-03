@@ -1,0 +1,4 @@
+node: 4eef05f0e45746ff1a715c014793d049a66d70b3
+node-date: 2023-05-31T15:15:35-04:00
+describe-name: 0.17.6
+ref-names: tag: 0.17.6, refs/__gh__/pull/132/rebase

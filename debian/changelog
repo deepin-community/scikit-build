@@ -1,3 +1,114 @@
+scikit-build (0.17.6-1) unstable; urgency=medium
+
+  * New upstream version (Closes: #1042353).
+  * d/patches/0001-Remove-cmake-extension.patch: Update patch according to new
+    upstream release.
+  * d/control: Add pybuild-plugin-pyproject as Build Depends.
+    - Add python3-hatchling, python3-hatch-fancy-pypi-readme, python3-hatch-vcs
+      as Build-Depends.
+    - Remove python3-path, python3-pytest-runner and python3-setuptools-scm as
+      Build-Depends. They are not longer need.
+  * d/tests/control: ignore test_source_distribution and test_wheel, they need a
+    .git configured for the project.
+  * d/copyright: Update Copyright year for debian/* files.
+  * d/tests/testsuite: Copy pyproject.toml to AUTOPKGTEST_TMP folder, to avoid
+    warnings during the tests.
+  * d/control: Remove the Built-Using from python-skbuild-doc package stanza
+    because it is declared as Architecture: all.
+  * d/control: Update my contact information. Also in d/copyright for debian/*
+    files copyright.
+
+ -- Emmanuel Arias <eamanu@debian.org>  Wed, 21 Jun 2023 17:04:25 -0300
+
+scikit-build (0.16.4-1) unstable; urgency=medium
+
+  * New upstream version.
+  * d/copyright: Update the Upstream-Contact. Upstream does not use the
+    mailing list, now Github Discussions is used.
+    - Remove Licenses entries for BSD-3-clause and CC0-1.0. They are not
+    present in upstream source.
+    - Use expat license name instead of MIT.
+    - Update Copyright Year for debian/* files.
+  * d/control: Bump Standards-Version to 4.6.2 (from 4.6.1; no further changes
+    needed).
+  * d/control: Update upstream Homepage link.
+  * d/rules: Activate unit tests execution. Remove PYBUILD_DISABLE=test variable.
+  * d/control: Move cmake from binary dependency to build dependency. It is
+    used in tests.
+  * d/control: Add python3-build, python3-pip, python3-pytest-mock, git,
+    python3-all-dev as build depends. They are used in tests.
+  * d/rules: override dh_auto_test to execute unit tests.
+    - Ignore tests that need more work to run successful.
+  * d/control: Add <!nocheck> profile to packages used in tests.
+  * d/control: Remove python3-pytest-cov and python3-mock from build depends.
+    They are not used.
+  * wrap-and-sort.
+  * d/tests: Add autopkgtest.
+  * d/control: Add Rules-Requires-Root: no in source stanza.
+  * d/tests/control: Add build-essential as a Depends of autopkgtests.
+
+ -- Emmanuel Arias <eamanu@yaerobi.com>  Sun, 29 Jan 2023 16:35:12 -0300
+
+scikit-build (0.16.2-3) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Apply multi-arch hints. + python-skbuild-doc: Add Multi-Arch: foreign.
+
+ -- Jelmer Vernooĳ <jelmer@debian.org>  Sun, 27 Nov 2022 13:54:30 +0000
+
+scikit-build (0.16.2-2) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Remove constraints unnecessary since buster (oldstable)
+
+ -- Jelmer Vernooĳ <jelmer@debian.org>  Wed, 16 Nov 2022 10:37:14 +0000
+
+scikit-build (0.16.2-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Boyuan Yang <byang@debian.org>  Tue, 08 Nov 2022 14:02:39 -0500
+
+scikit-build (0.16.1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * debian/control: Drop requirement on python3-six.
+
+ -- Boyuan Yang <byang@debian.org>  Thu, 03 Nov 2022 16:23:35 -0400
+
+scikit-build (0.15.0-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+    + Fix compatibility with python3.10 on distutils.
+  * debian/control: Bump Standards-Version to 4.6.1.
+  * debian/control: Add missing Built-Using field for doc package.
+
+ -- Boyuan Yang <byang@debian.org>  Wed, 25 May 2022 13:05:00 -0400
+
+scikit-build (0.14.1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * debian/copyright: Drop information about unused versioneer.
+  * debian/rules: Delete generated skbuild/_version.py after dh_clean.
+
+ -- Boyuan Yang <byang@debian.org>  Tue, 03 May 2022 20:32:01 -0400
+
+scikit-build (0.13.1-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+    + Add support for python3.9 and python3.10.
+  * debian/control: Fix Vcs-* fields.
+  * debian/control: Bump Standards-Version to 4.6.0.
+  * debian/patches: Refresh patches.
+  * debian/copyright: Fix lintian warnings.
+
+ -- Boyuan Yang <byang@debian.org>  Sun, 27 Mar 2022 11:53:29 -0400
+
 scikit-build (0.11.1-2) unstable; urgency=medium
 
   * d/control: Depends on cmake. Patch by Matthias Klose.
