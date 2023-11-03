@@ -4,14 +4,14 @@
 Making a release
 ================
 
-A core developer should use the following steps to create a release `X.Y.Z` of
+A core developer should use the following steps to create a release ``X.Y.Z`` of
 **scikit-build** on `PyPI`_ and `Conda`_.
 
 -------------
 Prerequisites
 -------------
 
-* All CI tests are passing on `AppVeyor`_, `Azure Pipelines`_, `CircleCI`_ and `Travis CI`_.
+* All CI tests are passing on `GitHub Actions`_ and `Azure Pipelines`_.
 
 * You have a `GPG signing key <https://help.github.com/articles/generating-a-new-gpg-key/>`_.
 
@@ -61,10 +61,10 @@ Setting up environment
 `PyPI`_: Step-by-step
 ---------------------
 
-1. Make sure that all CI tests are passing on `AppVeyor`_, `Azure Pipelines`_, `CircleCI`_ and `Travis CI`_.
+1. Make sure that all CI tests are passing on `GitHub Actions`_ and `Azure Pipelines`_.
 
 
-2. Download the latest sources
+2. Download the latest sources (or use an existing git checkout)
 
   .. code::
 
@@ -73,12 +73,11 @@ Setting up environment
       cd scikit-build
 
 
-3. List all tags sorted by version
+3. List all tags sorted by creation date
 
   .. code::
 
-    $ git fetch --tags && \
-      git tag -l | sort -V
+    $ git tag -l --sort creatordate
 
 
 4. Choose the next release version number
@@ -93,33 +92,20 @@ Setting up environment
       expression: ``^[0-9]+(\.[0-9]+)*(\.post[0-9]+)?$``.
 
 
-5. In `README.rst`, update `PyPI`_ download count after running `this big table query <https://console.cloud.google.com/bigquery?sq=280188050539:6571a5b49fd1426395e4beea055d2b1b>`_
-   and commit the changes.
-
-  .. code::
-
-    $ git add README.rst && \
-      git commit -m "README: Update download stats [ci skip]"
-
-  ..  note::
-
-    To learn more about `pypi-stats`, see `How to get PyPI download statistics <https://kirankoduru.github.io/python/pypi-stats.html>`_.
-
-
-6. In `CHANGES.rst` replace ``Next Release`` section header with
+5. In ``CHANGES.rst`` replace ``Next Release`` section header with
    ``Scikit-build X.Y.Z`` and commit the changes.
 
   .. code::
 
     $ git add CHANGES.rst && \
-      git commit -m "Scikit-build ${release}"
+      git commit -m "Scikit-build $release"
 
 
-7. Tag the release
+6. Tag the release
 
   .. code::
 
-    $ git tag --sign -m "Scikit-build ${release}" ${release} master
+    $ git tag --sign -m "Scikit-build $release" $release main
 
   .. warning::
 
@@ -127,83 +113,59 @@ Setting up environment
       to sign the tag.
 
 
-8. Create the source distribution and wheel
+7. Publish both the release tag and the main branch
 
   .. code::
 
-    $ python setup.py sdist bdist_wheel
+    $ git push origin $release && \
+      git push origin main
 
 
-9. Publish the both release tag and the master branch
-
-  .. code::
-
-    $ git push origin ${release} && \
-      git push origin master
-
-
-10. Upload the distributions on `PyPI`_
+8. Make a `GitHub release <https://github.com/scikit-build/scikit-build/releases/new>`_. Paste the converted release notes as markdown; convert using
 
   .. code::
 
-    twine upload dist/*
+    cat CHANGES.rst | pandoc -f rst -t gfm
+
+  and then edit the result (it will not be perfect) to prepare the body of the
+  release. You can also try `clipboardtomarkdown <https://euangoddard.github.io/clipboard2markdown/>`_
+  or copying to a draft `discord <https://discourse.slicer.org/>`_ post. PRs
+  should be converted to simple ``#<number>`` form. Be sure to use the tag you just
+  pushed as the tag version, and ``Scikit-build X.Y.Z`` should be the name.
 
   .. note::
 
-    To first upload on `TestPyPI`_ , do the following::
-
-        $ twine upload -r pypitest dist/*
+    For examples of releases, see https://github.com/scikit-build/scikit-build/releases
 
 
-11. Create a clean testing environment to test the installation
-
-  .. code::
-
-    $ pushd $(mktemp -d) && \
-      mkvirtualenv scikit-build-${release}-install-test && \
-      pip install scikit-build && \
-      python -c "import skbuild"
-
-  .. note::
-
-    If the ``mkvirtualenv`` command is not available, this means you do not have `virtualenvwrapper`_
-    installed, in that case, you could either install it or directly use `virtualenv`_ or `venv`_.
-
-    To install from `TestPyPI`_, do the following::
-
-        $ pip install -i https://test.pypi.org/simple scikit-build
-
-
-12. Cleanup
-
-  .. code::
-
-    $ popd && \
-      deactivate  && \
-      rm -rf dist/* && \
-      rmvirtualenv scikit-build-${release}-install-test
-
-
-13. Add a ``Next Release`` section back in `CHANGES.rst`, commit and push local changes.
+9. Add a ``Next Release`` section back in ``CHANGES.rst``, commit and push local changes.
 
   .. code::
 
     $ git add CHANGES.rst && \
       git commit -m "CHANGES.rst: Add \"Next Release\" section [ci skip]" && \
-      git push origin master
+      git push origin main
+
+
+
+10. Add an entry to the ``Announcements`` category of the `scikit-build discussions board`_.
+
+  .. note::
+
+    For examples of announcements, see https://github.com/orgs/scikit-build/discussions/categories/announcements
 
 
 .. _virtualenvwrapper: https://virtualenvwrapper.readthedocs.io/
 .. _virtualenv: http://virtualenv.readthedocs.io
 .. _venv: https://docs.python.org/3/library/venv.html
 
-.. _AppVeyor: https://ci.appveyor.com/project/scikit-build/scikit-build/history
 .. _Azure Pipelines: https://dev.azure.com/scikit-build/scikit-build/_build
-.. _CircleCI: https://circleci.com/gh/scikit-build/scikit-build
-.. _Travis CI: https://travis-ci.org/scikit-build/scikit-build/builds
+.. _GitHub Actions: https://github.com/scikit-build/scikit-build/actions
 
 .. _PyPI: https://pypi.org/project/scikit-build
 .. _TestPyPI: https://test.pypi.org/project/scikit-build
+
+.. _scikit-build discussions board: https://github.com/orgs/scikit-build/discussions/categories/announcements
 
 -----------------------
 `Conda`_: Step-by-step
@@ -218,7 +180,7 @@ and after the conda-forge `Autoticking Bot <https://justcalamari.github.io/jekyl
 creates a pull request on the `scikit-build-feedstock`_ , follow these steps to finalize the conda package
 release:
 
-1. Review and update scikit-build-feedstock pull request to include Python 3.5 support (see `here <https://github.com/conda-forge/scikit-build-feedstock/commit/abb18f5ab491e2c9392cff587bd539f876a782ae>`_ for an example)
+1. Review the pull-request
 
 2. Merge pull-request
 
@@ -235,7 +197,7 @@ conda-forge, follow the steps below:
 2. Fork scikit-build-feedstock
 
  First step is to fork `scikit-build-feedstock`_ repository.
- This is the recommended `best practice <https://conda-forge.org/docs/conda-forge_gotchas.html#using-a-fork-vs-a-branch-when-updating-a-recipe>`_  by conda.
+ This is the recommended `best practice <https://conda-forge.org/docs/maintainer/updating_pkgs.html>`_  by conda.
 
 
 3. Clone forked feedstock
@@ -244,7 +206,8 @@ conda-forge, follow the steps below:
 
    .. code::
 
-      $ cd /tmp && git clone https://github.com/YOURGITHUBUSER/scikit-build-feedstock.git
+      $ YOURGITHUBUSER=user
+      $ cd /tmp && git clone https://github.com/$YOURGITHUBUSER/scikit-build-feedstock.git
 
 
 4. Download corresponding source for the release version
@@ -265,8 +228,8 @@ conda-forge, follow the steps below:
 
 6. Modify ``meta.yaml``
 
-   Update the `version string <https://github.com/conda-forge/scikit-build-feedstock/blob/master/recipe/meta.yaml#L2>`_ and
-   `sha256 <https://github.com/conda-forge/scikit-build-feedstock/blob/master/recipe/meta.yaml#L3>`_.
+   Update the `version string <https://github.com/conda-forge/scikit-build-feedstock/blob/main/recipe/meta.yaml#L2>`_ and
+   `sha256 <https://github.com/conda-forge/scikit-build-feedstock/blob/main/recipe/meta.yaml#L3>`_.
 
    We have to modify the sha and the version string in the ``meta.yaml`` file.
 
@@ -274,18 +237,24 @@ conda-forge, follow the steps below:
 
    .. code::
 
-      $ sed -i "2s/.*/{% set version = \"$release\" %}/" recipe/meta.yaml
-      $ sha=$(openssl sha256 /tmp/scikit-build-$release.tar.gz | awk '{print $2}')
-      $ sed -i "3s/.*/{$ set sha256 = \"$sha\" %}/" recipe/meta.yaml
+      $ sed -i "1s/.*/{% set version = \"$release\" %}/" recipe/meta.yaml && \
+        sha=$(openssl sha256 /tmp/$release.tar.gz | awk '{print $2}') && \
+        sed -i "2s/.*/{% set sha256 = \"$sha\" %}/" recipe/meta.yaml
 
    For macOS:
 
    .. code::
 
-      $ sed -i -- "2s/.*/{% set version = \"$release\" %}/" recipe/meta.yaml
-      $ sha=$(openssl sha256 /tmp/scikit-build-$release.tar.gz | awk '{print $2}')
-      $ sed -i -- "3s/.*/{$ set sha256 = \"$sha\" %}/" recipe/meta.yaml
+      $ sed -i -- "1s/.*/{% set version = \"$release\" %}/" recipe/meta.yaml && \
+        sha=$(openssl sha256 /tmp/$release.tar.gz | awk '{print $2}') && \
+        sed -i -- "2s/.*/{% set sha256 = \"$sha\" %}/" recipe/meta.yaml
 
+   Commit local changes.
+
+   .. code::
+
+      $ git add recipe/meta.yaml && \
+          git commit -m "scikit-build v$release version"
 
 
 7. Push the changes

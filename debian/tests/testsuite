@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e -u -x
+
+cp -r tests "$AUTOPKGTEST_TMP"
+# Add pyproject.toml to add the filters warning
+cp pyproject.toml "$AUTOPKGTEST_TMP"
+cd "$AUTOPKGTEST_TMP"
+
+
+for py in $(py3versions -s); do
+    $py -m pytest -k 'not test_hello_sdist and not test_hello_sdist_with_base and not test_sdist_with_symlinks and not test_manifest_in_sdist and not test_generator_cleanup and not test_fortran and not test_pep518_findpython and not test_pep518 and not test_dual_pep518 and not test_hello_develop and not test_install_command and not test_help_commands and not test_test_command and not test_source_distribution and not test_wheel'
+done

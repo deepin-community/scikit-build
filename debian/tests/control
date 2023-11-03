@@ -1,0 +1,14 @@
+Tests: testsuite
+Depends: build-essential,
+         cython3,
+         git,
+         python3-all,
+         python3-all-dev,
+         python3-build,
+         python3-pip,
+         python3-pytest,
+         python3-pytest-mock,
+         python3-requests,
+         python3-virtualenv,
+         @,
+Restrictions: allow-stderr

@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 """test_outside_project_root
 ----------------------------------
 
@@ -8,6 +5,8 @@ Tries to build the `fail-outside-project-root` sample project.  Ensures that the
 attempt fails with a SystemExit exception that has an SKBuildError exception as
 its value.
 """
+
+from __future__ import annotations
 
 import pytest
 
@@ -17,15 +16,9 @@ from skbuild.utils import push_dir
 from . import project_setup_py_test
 
 
-@pytest.mark.parametrize("option", [
-    None,
-    '-DINSTALL_FILE:BOOL=1',
-    '-DINSTALL_PROJECT:BOOL=1'
-])
+@pytest.mark.parametrize("option", [None, "-DINSTALL_FILE:BOOL=1", "-DINSTALL_PROJECT:BOOL=1"])
 def test_outside_project_root_fails(option):
-
     with push_dir():
-
         expected_failure = False
 
         cmd = ["install"]
