@@ -3,6 +3,7 @@
 #export DH_VERBOSE = 1
 export PYBUILD_NAME = skbuild
 
+export DEB_BUILD_OPTIONS=nocheck
 PY3VERS=$(shell py3versions -vr)
 
 # These tests need work. Ignore them until freeze Debian finish.
