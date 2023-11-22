@@ -1,3 +1,9 @@
+scikit-build (0.17.6-1deepin1) unstable; urgency=medium
+
+  * skip test.
+
+ -- LiChengGang <lichenggang@uniontech.com>  Wed, 22 Nov 2023 13:07:05 +0800
+
 scikit-build (0.17.6-1) unstable; urgency=medium
 
   * New upstream version (Closes: #1042353).
